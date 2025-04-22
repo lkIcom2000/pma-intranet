@@ -21,6 +21,8 @@ import {
   Add as AddIcon,
   Upload as UploadIcon,
   QuestionAnswer as QuestionAnswerIcon,
+  Settings as SettingsIcon,
+  EmojiEmotions as MoodIcon,
 } from '@mui/icons-material';
 import { Link as RouterLink, useLocation, Navigate } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
@@ -46,6 +48,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     { text: 'Create Article', icon: <AddIcon />, path: '/articles/create' },
     { text: 'Import Data', icon: <UploadIcon />, path: '/import' },
     { text: 'Answer Question', icon: <QuestionAnswerIcon />, path: '/answer-question' },
+    { text: 'Submit Mood', icon: <MoodIcon />, path: '/submit-mood' },
+    { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
   ];
 
   const drawer = (

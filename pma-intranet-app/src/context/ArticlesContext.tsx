@@ -1,9 +1,10 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface Article {
-  id: number;
+  id: string;
   title: string;
   excerpt: string;
+  content?: string;
   image?: string;
   category: string;
   readTime: number;
@@ -19,12 +20,21 @@ interface ArticlesContextType {
 const ArticlesContext = createContext<ArticlesContextType | undefined>(undefined);
 
 export const ArticlesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [articles, setArticles] = useState<Article[]>([]);
+  // Initialize state from localStorage if available
+  const [articles, setArticles] = useState<Article[]>(() => {
+    const savedArticles = localStorage.getItem('articles');
+    return savedArticles ? JSON.parse(savedArticles) : [];
+  });
+
+  // Save articles to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('articles', JSON.stringify(articles));
+  }, [articles]);
 
   const addArticle = (newArticle: Omit<Article, 'id' | 'date'>) => {
     const article: Article = {
       ...newArticle,
-      id: articles.length + 1,
+      id: String(Date.now()), // Use timestamp for unique ID
       date: new Date().toISOString().split('T')[0],
     };
     setArticles(prev => [article, ...prev]);
